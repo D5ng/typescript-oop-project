@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+// ! 유효성 체크
 function validate(validatableInput) {
     let isValid = true;
     if (validatableInput.required) {
@@ -24,6 +25,7 @@ function validate(validatableInput) {
     }
     return isValid;
 }
+// ! 메서드 데코레이터 바인딩
 function Autobind(_target, _methodName, descriptor) {
     const originalMethod = descriptor.value;
     return {
@@ -32,6 +34,7 @@ function Autobind(_target, _methodName, descriptor) {
         },
     };
 }
+//! 프로젝트 폼 생성 및 사용자 입력 수집 담당하는 클래스
 class ProjectInput {
     constructor() {
         this.templateElement = document.getElementById("project-input");
@@ -95,4 +98,19 @@ class ProjectInput {
 __decorate([
     Autobind
 ], ProjectInput.prototype, "submitHandler", null);
+// ! 프로젝트 목록 생성 담당 클래스
+class ProjectList {
+    constructor(type) {
+        this.type = type;
+        this.templateElement = document.getElementById("project-list");
+        this.hostElement = document.getElementById("app");
+        const importedNode = document.importNode(this.templateElement.content, true);
+        this.element = importedNode.firstElementChild;
+        this.element.id = `${this.type}-projects`;
+        this.attach();
+    }
+    attach() {
+        this.hostElement.insertAdjacentElement("beforeend", this.element);
+    }
+}
 new ProjectInput();

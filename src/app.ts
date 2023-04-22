@@ -1,3 +1,4 @@
+// ! 이름뒤에 able로 끝나는것이 네이밍 관습이다.
 interface Validatable {
   value: string | number
   required?: boolean
@@ -7,6 +8,7 @@ interface Validatable {
   max?: number
 }
 
+// ! 유효성 체크
 function validate(validatableInput: Validatable) {
   let isValid = true
 
@@ -33,6 +35,7 @@ function validate(validatableInput: Validatable) {
   return isValid
 }
 
+// ! 메서드 데코레이터 바인딩
 function Autobind(_target: any, _methodName: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value
   return {
@@ -42,6 +45,7 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
   }
 }
 
+//! 프로젝트 폼 생성 및 사용자 입력 수집 담당하는 클래스
 class ProjectInput {
   templateElement: HTMLTemplateElement
   hostElement: HTMLDivElement
@@ -119,6 +123,28 @@ class ProjectInput {
 
   private attach() {
     this.hostElement.insertAdjacentElement("afterbegin", this.element)
+  }
+}
+
+// ! 프로젝트 목록 생성 담당 클래스
+class ProjectList {
+  templateElement: HTMLTemplateElement
+  hostElement: HTMLDivElement
+  element: HTMLElement
+
+  constructor(private type: "active" | "finished") {
+    this.templateElement = document.getElementById("project-list")! as HTMLTemplateElement
+    this.hostElement = document.getElementById("app")! as HTMLDivElement
+
+    const importedNode = document.importNode(this.templateElement.content, true)
+    this.element = importedNode.firstElementChild! as HTMLElement
+    this.element.id = `${this.type}-projects`
+
+    this.attach()
+  }
+
+  private attach() {
+    this.hostElement.insertAdjacentElement("beforeend", this.element)
   }
 }
 
