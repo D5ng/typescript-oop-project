@@ -100,7 +100,7 @@ __decorate([
 ], ProjectInput.prototype, "submitHandler", null);
 // ! 프로젝트 목록 생성 담당 클래스
 class ProjectList {
-    constructor(type) {
+    constructor(type = "active") {
         this.type = type;
         this.templateElement = document.getElementById("project-list");
         this.hostElement = document.getElementById("app");
@@ -108,9 +108,17 @@ class ProjectList {
         this.element = importedNode.firstElementChild;
         this.element.id = `${this.type}-projects`;
         this.attach();
+        this.renderContent();
+    }
+    renderContent() {
+        const listId = `${this.type}-projects-list`;
+        this.element.querySelector("ul").id = listId;
+        this.element.querySelector("h2").textContent = `${this.type.toUpperCase()} PROJECTS`;
     }
     attach() {
         this.hostElement.insertAdjacentElement("beforeend", this.element);
     }
 }
-new ProjectInput();
+const projectInput = new ProjectInput();
+const activeProject = new ProjectList("active");
+const finishedProject = new ProjectList("finished");

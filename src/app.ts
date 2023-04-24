@@ -132,7 +132,7 @@ class ProjectList {
   hostElement: HTMLDivElement
   element: HTMLElement
 
-  constructor(private type: "active" | "finished") {
+  constructor(private type: "active" | "finished" = "active") {
     this.templateElement = document.getElementById("project-list")! as HTMLTemplateElement
     this.hostElement = document.getElementById("app")! as HTMLDivElement
 
@@ -141,6 +141,13 @@ class ProjectList {
     this.element.id = `${this.type}-projects`
 
     this.attach()
+    this.renderContent()
+  }
+
+  private renderContent() {
+    const listId = `${this.type}-projects-list`
+    this.element.querySelector("ul")!.id = listId
+    this.element.querySelector("h2")!.textContent = `${this.type.toUpperCase()} PROJECTS`
   }
 
   private attach() {
@@ -148,4 +155,6 @@ class ProjectList {
   }
 }
 
-new ProjectInput()
+const projectInput = new ProjectInput()
+const activeProject = new ProjectList("active")
+const finishedProject = new ProjectList("finished")
