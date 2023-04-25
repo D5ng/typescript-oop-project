@@ -155,6 +155,20 @@ class ProjectInput extends Component {
 __decorate([
     Autobind
 ], ProjectInput.prototype, "submitHandler", null);
+class ProjectItem extends Component {
+    constructor(hostId, project) {
+        super("single-project", hostId, false, project.id);
+        this.project = project;
+        this.configure();
+        this.renderContent();
+    }
+    configure() { }
+    renderContent() {
+        this.element.querySelector("h2").textContent = this.project.title;
+        this.element.querySelector("h3").textContent = this.project.people.toString();
+        this.element.querySelector("p").textContent = this.project.desc;
+    }
+}
 // ! 프로젝트 목록 생성 담당 클래스
 class ProjectList extends Component {
     constructor(type = "active") {
@@ -185,9 +199,7 @@ class ProjectList extends Component {
         const listEl = document.getElementById(`${this.type}-projects-list`);
         listEl.innerHTML = "";
         for (const prjItem of this.assignedProjects) {
-            const listItem = document.createElement("li");
-            listItem.textContent = prjItem.title;
-            listEl.appendChild(listItem);
+            new ProjectItem(this.element.querySelector("ul").id, prjItem);
         }
     }
 }
