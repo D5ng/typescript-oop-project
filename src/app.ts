@@ -45,10 +45,27 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
   }
 }
 
+enum ProjectStatus {
+  Active,
+  Finished,
+}
+
+// ! 프로젝트 타입
+class Project {
+  constructor(public id: string, public title: string, public desc: string, public people: number, public status: ProjectStatus) {
+    this.id = id
+    this.title = title
+    this.desc = desc
+    this.people = people
+  }
+}
+
+type Listener = (item: Project[]) => void
+
 // ! 전역 상태관리
 class ProjectState {
-  private listeners: any[] = []
-  private projects: any[] = []
+  private listeners: Listener[] = []
+  private projects: Project[] = []
   private static instance: ProjectState
 
   private constructor() {}
@@ -61,17 +78,12 @@ class ProjectState {
     return this.instance
   }
 
-  addListener(listenerFn: Function) {
+  addListener(listenerFn: Listener) {
     this.listeners.push(listenerFn)
   }
 
   addProject(title: string, description: string, numOfPeople: number) {
-    const newProject = {
-      id: Math.random().toString(),
-      title,
-      description,
-      people: numOfPeople,
-    }
+    const newProject = new Project(Math.random().toString(), title, description, numOfPeople, ProjectStatus.Active)
     this.projects.push(newProject)
     for (const listenerFn of this.listeners) {
       listenerFn([...this.projects])
@@ -167,7 +179,7 @@ class ProjectList {
   templateElement: HTMLTemplateElement
   hostElement: HTMLDivElement
   element: HTMLElement
-  assignedProjects: any[] = []
+  assignedProjects: Project[] = []
 
   constructor(private type: "active" | "finished" = "active") {
     this.templateElement = document.getElementById("project-list")! as HTMLTemplateElement
@@ -178,7 +190,7 @@ class ProjectList {
     this.element = importedNode.firstElementChild! as HTMLElement
     this.element.id = `${this.type}-projects`
 
-    projectState.addListener((projects: any[]) => {
+    projectState.addListener((projects: Project[]) => {
       this.assignedProjects = projects
       this.renderProjects()
     })
