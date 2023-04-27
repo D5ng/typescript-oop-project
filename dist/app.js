@@ -165,13 +165,29 @@ class ProjectItem extends Component {
     get persons() {
         return this.project.people === 1 ? "1 person" : `${this.project.people} persons`;
     }
-    configure() { }
+    dragStartHandler(event) {
+        console.log(event);
+    }
+    dragEndHandler(event) {
+        console.log("Drag End");
+    }
+    configure() {
+        console.log(this.element);
+        this.element.addEventListener("dragstart", this.dragStartHandler);
+        this.element.addEventListener("dragend", this.dragEndHandler);
+    }
     renderContent() {
         this.element.querySelector("h2").textContent = this.project.title;
         this.element.querySelector("h3").textContent = `${this.project.people.toString()} ${this.persons} assigned`;
         this.element.querySelector("p").textContent = this.project.desc;
     }
 }
+__decorate([
+    Autobind
+], ProjectItem.prototype, "dragStartHandler", null);
+__decorate([
+    Autobind
+], ProjectItem.prototype, "dragEndHandler", null);
 // ! 프로젝트 목록 생성 담당 클래스
 class ProjectList extends Component {
     constructor(type = "active") {

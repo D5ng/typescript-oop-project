@@ -1,3 +1,16 @@
+// ! Draggable
+interface Draggble {
+  dragStartHandler(event: DragEvent): void
+  dragEndHandler(event: DragEvent): void
+}
+
+// ! DragTarget
+interface DragTarget {
+  dragOverHandler(event: DragEvent): void
+  dragLeaveHandler(event: DragEvent): void
+  dropHandler(event: DragEvent): void
+}
+
 // ! 이름뒤에 able로 끝나는것이 네이밍 관습이다.
 interface Validatable {
   value: string | number
@@ -195,7 +208,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
   }
 }
 
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements Draggble {
   private project: Project
 
   constructor(hostId: string, project: Project) {
@@ -209,7 +222,21 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     return this.project.people === 1 ? "1 person" : `${this.project.people} persons`
   }
 
-  configure() {}
+  @Autobind
+  dragStartHandler(event: DragEvent): void {
+    console.log(event)
+  }
+
+  @Autobind
+  dragEndHandler(event: DragEvent): void {
+    console.log("Drag End")
+  }
+
+  configure() {
+    console.log(this.element)
+    this.element.addEventListener("dragstart", this.dragStartHandler)
+    this.element.addEventListener("dragend", this.dragEndHandler)
+  }
   renderContent() {
     this.element.querySelector("h2")!.textContent = this.project.title
     this.element.querySelector("h3")!.textContent = `${this.project.people.toString()} ${this.persons} assigned`
