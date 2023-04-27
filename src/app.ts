@@ -59,8 +59,8 @@ function Autobind(_target: any, _methodName: string, descriptor: PropertyDescrip
 }
 
 enum ProjectStatus {
-  Active,
-  Finished,
+  Active, // 0
+  Finished, // 1
 }
 
 // ! 프로젝트 타입
@@ -109,6 +109,18 @@ class ProjectState extends State<Project> {
   addProject(title: string, description: string, numOfPeople: number) {
     const newProject = new Project(Math.random().toString(), title, description, numOfPeople, ProjectStatus.Active)
     this.projects.push(newProject)
+    this.updateListeners()
+  }
+
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find((project) => project.id === projectId)
+    if (project && project.status !== newStatus) {
+      project.status = newStatus
+      this.updateListeners()
+    }
+  }
+
+  private updateListeners() {
     for (const listenerFn of this.listeners) {
       listenerFn([...this.projects])
     }
@@ -234,7 +246,6 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> implements 
   }
 
   configure() {
-    console.log(this.element)
     this.element.addEventListener("dragstart", this.dragStartHandler)
     this.element.addEventListener("dragend", this.dragEndHandler)
   }
@@ -262,6 +273,8 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
       event.preventDefault()
       const listEl = this.element.querySelector("ul")!
       listEl.classList.add("droppable")
+
+      console.log(this.type)
     }
   }
 
@@ -273,8 +286,8 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> implements Drag
 
   @Autobind
   dropHandler(event: DragEvent): void {
-    console.log(event, "drop!!")
-    // event.dataTransfer!.getData('text/plain')
+    const projectId = event.dataTransfer!.getData("text/plain")
+    projectState.moveProject(projectId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished)
   }
 
   configure() {
