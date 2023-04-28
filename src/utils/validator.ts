@@ -1,5 +1,5 @@
 // ! 이름뒤에 able로 끝나는것이 네이밍 관습이다.
-interface Validatable {
+export interface Validatable {
   value: string | number
   required?: boolean
   minLength?: number
@@ -9,7 +9,7 @@ interface Validatable {
 }
 
 // ! 유효성 체크
-function validate(validatableInput: Validatable) {
+export function validate(validatableInput: Validatable) {
   let isValid = true
 
   if (validatableInput.required) {

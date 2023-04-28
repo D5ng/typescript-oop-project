@@ -1,15 +1,12 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProjectItem = void 0;
-const base_components_1 = require("./base-components");
-const autobind_1 = require("../decorator/autobind");
-class ProjectItem extends base_components_1.Component {
+import { Component } from "./base-components.js";
+import { Autobind } from "../decorator/autobind.js";
+export class ProjectItem extends Component {
     constructor(hostId, project) {
         super("single-project", hostId, false, project.id);
         this.project = project;
@@ -37,10 +34,9 @@ class ProjectItem extends base_components_1.Component {
     }
 }
 __decorate([
-    autobind_1.Autobind
+    Autobind
 ], ProjectItem.prototype, "dragStartHandler", null);
 __decorate([
-    autobind_1.Autobind
+    Autobind
 ], ProjectItem.prototype, "dragEndHandler", null);
-exports.ProjectItem = ProjectItem;
 //# sourceMappingURL=project-item.js.map

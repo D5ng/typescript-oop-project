@@ -1,18 +1,16 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProjectList = void 0;
-const base_components_1 = require("./base-components");
-const project_item_1 = require("./project-item");
-const autobind_1 = require("../decorator/autobind");
-const project_state_1 = require("../state/project-state");
+import { Component } from "./base-components.js";
+import { ProjectItem } from "./project-item.js";
+import { Autobind } from "../decorator/autobind.js";
+import { projectState } from "../state/project-state.js";
+import { ProjectStatus } from "../models/project.js";
 // ! 프로젝트 목록 생성 담당 클래스
-class ProjectList extends base_components_1.Component {
+export class ProjectList extends Component {
     constructor(type = "active") {
         super("project-list", "app", false, `${type}-projects`);
         this.type = type;
@@ -35,13 +33,13 @@ class ProjectList extends base_components_1.Component {
     }
     dropHandler(event) {
         const projectId = event.dataTransfer.getData("text/plain");
-        project_state_1.projectState.moveProject(projectId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished);
+        projectState.moveProject(projectId, this.type === "active" ? ProjectStatus.Active : ProjectStatus.Finished);
     }
     configure() {
         this.element.addEventListener("dragover", this.dragOverHandler);
         this.element.addEventListener("dragleave", this.dragLeaveHandler);
         this.element.addEventListener("drop", this.dropHandler);
-        project_state_1.projectState.addListener((projects) => {
+        projectState.addListener((projects) => {
             const relevantProjects = projects.filter((project) => {
                 return this.type === "active"
                     ? project.status === ProjectStatus.Active
@@ -60,18 +58,17 @@ class ProjectList extends base_components_1.Component {
         const listEl = document.getElementById(`${this.type}-projects-list`);
         listEl.innerHTML = "";
         for (const prjItem of this.assignedProjects) {
-            new project_item_1.ProjectItem(this.element.querySelector("ul").id, prjItem);
+            new ProjectItem(this.element.querySelector("ul").id, prjItem);
         }
     }
 }
 __decorate([
-    autobind_1.Autobind
+    Autobind
 ], ProjectList.prototype, "dragOverHandler", null);
 __decorate([
-    autobind_1.Autobind
+    Autobind
 ], ProjectList.prototype, "dragLeaveHandler", null);
 __decorate([
-    autobind_1.Autobind
+    Autobind
 ], ProjectList.prototype, "dropHandler", null);
-exports.ProjectList = ProjectList;
 //# sourceMappingURL=project-list.js.map

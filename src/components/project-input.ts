@@ -1,6 +1,7 @@
-import { Component } from "./base-components"
-import { Autobind } from "../decorator/autobind"
-import { projectState } from "../state/project-state"
+import { Component } from "./base-components.js"
+import { Autobind } from "../decorator/autobind.js"
+import { projectState } from "../state/project-state.js"
+import { validate, Validatable } from "../utils/validator.js"
 
 //! 프로젝트 폼 생성 및 사용자 입력 수집 담당하는 클래스
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {

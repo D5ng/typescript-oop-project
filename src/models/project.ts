@@ -1,10 +1,10 @@
-enum ProjectStatus {
+export enum ProjectStatus {
   Active, // 0
   Finished, // 1
 }
 
 // ! 프로젝트 타입
-class Project {
+export class Project {
   constructor(
     public id: string,
     public title: string,

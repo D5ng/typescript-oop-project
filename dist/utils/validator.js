@@ -1,6 +1,5 @@
-"use strict";
 // ! 유효성 체크
-function validate(validatableInput) {
+export function validate(validatableInput) {
     let isValid = true;
     if (validatableInput.required) {
         isValid = isValid && validatableInput.value.toString().trim().length !== 0;

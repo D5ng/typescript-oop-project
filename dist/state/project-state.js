@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.projectState = void 0;
+import { Project, ProjectStatus } from "../models/project.js";
 class State {
     constructor() {
         this.listeners = [];
@@ -40,5 +38,5 @@ class ProjectState extends State {
         }
     }
 }
-exports.projectState = ProjectState.getInstance();
+export const projectState = ProjectState.getInstance();
 //# sourceMappingURL=project-state.js.map

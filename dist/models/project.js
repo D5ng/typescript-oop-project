@@ -1,11 +1,10 @@
-"use strict";
-var ProjectStatus;
+export var ProjectStatus;
 (function (ProjectStatus) {
     ProjectStatus[ProjectStatus["Active"] = 0] = "Active";
     ProjectStatus[ProjectStatus["Finished"] = 1] = "Finished";
 })(ProjectStatus || (ProjectStatus = {}));
 // ! 프로젝트 타입
-class Project {
+export class Project {
     constructor(id, title, desc, people, status) {
         this.id = id;
         this.title = title;

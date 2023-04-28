@@ -1,9 +1,9 @@
-import { Component } from "./base-components"
-import { DragTarget } from "../models/drag-drop"
-import { ProjectItem } from "./project-item"
-import { Autobind } from "../decorator/autobind"
-import { projectState } from "../state/project-state"
-
+import { Component } from "./base-components.js"
+import { DragTarget } from "../models/drag-drop.js"
+import { ProjectItem } from "./project-item.js"
+import { Autobind } from "../decorator/autobind.js"
+import { projectState } from "../state/project-state.js"
+import { Project, ProjectStatus } from "../models/project.js"
 // ! 프로젝트 목록 생성 담당 클래스
 export class ProjectList extends Component<HTMLDivElement, HTMLElement> implements DragTarget {
   assignedProjects: Project[] = []
